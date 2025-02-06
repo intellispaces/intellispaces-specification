@@ -5,12 +5,8 @@ import tech.intellispaces.core.specification.reference.SpaceReference;
 
 import java.util.List;
 
-/**
- * The super domain specification.
- */
-public interface SuperDomainSpecification {
-
-  SpaceReference domain();
-
-  List<ConstraintSpecification> constraints();
+record SuperDomainSpecificationImpl(
+    SpaceReference domain,
+    List<ConstraintSpecification> constraints
+) implements SuperDomainSpecification {
 }

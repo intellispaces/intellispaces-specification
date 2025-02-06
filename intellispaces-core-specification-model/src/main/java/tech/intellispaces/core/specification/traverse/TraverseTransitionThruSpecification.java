@@ -1,11 +1,11 @@
 package tech.intellispaces.core.specification.traverse;
 
-import tech.intellispaces.core.specification.reference.Reference;
+import tech.intellispaces.core.specification.reference.SpaceReference;
 
 /**
  * The traverse transition "THRU channel" specification.
  */
 public interface TraverseTransitionThruSpecification extends TraverseTransitionSpecification {
 
-  Reference channel();
+  SpaceReference channel();
 }

@@ -1,7 +1,5 @@
 package tech.intellispaces.core.specification;
 
-import tech.intellispaces.core.specification.constraint.ContextChannelSpecification;
-
 import java.util.List;
 
 /**

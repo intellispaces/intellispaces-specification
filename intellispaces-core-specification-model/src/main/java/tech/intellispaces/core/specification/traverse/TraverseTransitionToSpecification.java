@@ -1,13 +1,13 @@
 package tech.intellispaces.core.specification.traverse;
 
-import tech.intellispaces.core.specification.reference.Reference;
+import tech.intellispaces.core.specification.reference.SpaceReference;
 
 /**
  * The traverse transition "TO domain" specification.
  */
 public interface TraverseTransitionToSpecification extends TraverseTransitionSpecification {
 
-  Reference domain();
+  SpaceReference domain();
 
   boolean isSuperDomain();
 }

@@ -1,0 +1,46 @@
+package tech.intellispaces.core.specification;
+
+import java.util.List;
+
+public class DomainSpecificationBuilder {
+  private String name;
+  private String did;
+  private String description;
+  private List<SuperDomainSpecification> superDomains = List.of();
+  private List<ContextChannelSpecification> channels;
+
+  public DomainSpecificationBuilder name(String name) {
+    this.name = name;
+    return this;
+  }
+
+  public DomainSpecificationBuilder did(String did) {
+    this.did = did;
+    return this;
+  }
+
+  public DomainSpecificationBuilder description(String description) {
+    this.description = description;
+    return this;
+  }
+
+  public DomainSpecificationBuilder superDomains(List<SuperDomainSpecification> domainReferences) {
+    this.superDomains = domainReferences;
+    return this;
+  }
+
+  public DomainSpecificationBuilder channels(List<ContextChannelSpecification> channels) {
+    this.channels = channels;
+    return this;
+  }
+
+  public DomainSpecification get() {
+    return new DomainSpecificationImpl(
+        name,
+        did,
+        description,
+        superDomains,
+        channels
+    );
+  }
+}

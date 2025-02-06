@@ -12,5 +12,5 @@ public interface EquivalenceConstraintSpecification extends ConstraintSpecificat
 
   List<TraversePathSpecification> traversePaths();
 
-  InstanceSpecification target();
+  InstanceSpecification instance();
 }

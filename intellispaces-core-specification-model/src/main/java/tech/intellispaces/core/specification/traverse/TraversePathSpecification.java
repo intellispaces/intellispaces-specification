@@ -1,6 +1,6 @@
 package tech.intellispaces.core.specification.traverse;
 
-import tech.intellispaces.core.specification.reference.Reference;
+import tech.intellispaces.core.specification.reference.SpaceReference;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface TraversePathSpecification {
 
-  Reference sourceDomain();
+  SpaceReference sourceDomain();
 
   List<TraverseTransitionSpecification> transitions();
 }

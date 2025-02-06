@@ -1,6 +1,6 @@
 package tech.intellispaces.core.specification.instance;
 
-import tech.intellispaces.core.specification.reference.Reference;
+import tech.intellispaces.core.specification.reference.SpaceReference;
 
 /**
  * The instance specification.
@@ -15,5 +15,5 @@ public interface InstanceSpecification {
 
   String asString();
 
-  Reference asReference();
+  SpaceReference asReference();
 }

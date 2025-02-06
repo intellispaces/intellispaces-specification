@@ -9,5 +9,5 @@ public interface ConstraintSpecification {
 
   boolean isEquivalenceConstraint();
 
-  EquivalenceConstraintSpecification asEqualConstraint();
+  EquivalenceConstraintSpecification asEquivalenceConstraint();
 }

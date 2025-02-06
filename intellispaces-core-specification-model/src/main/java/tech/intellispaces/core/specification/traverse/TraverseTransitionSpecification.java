@@ -8,4 +8,8 @@ public interface TraverseTransitionSpecification {
   boolean isToTransition();
 
   boolean isThruTransition();
+
+  TraverseTransitionToSpecification asToTransition();
+
+  TraverseTransitionThruSpecification asThruTransition();
 }

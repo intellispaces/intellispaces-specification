@@ -1,9 +1,9 @@
 package tech.intellispaces.core.specification.reference;
 
 /**
- * The reference.
+ * The space reference.
  */
-public interface Reference {
+public interface SpaceReference {
 
   /**
    * The full qualified name.

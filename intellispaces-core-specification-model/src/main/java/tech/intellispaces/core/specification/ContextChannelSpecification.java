@@ -1,7 +1,8 @@
-package tech.intellispaces.core.specification.constraint;
+package tech.intellispaces.core.specification;
 
+import tech.intellispaces.core.specification.constraint.ConstraintSpecification;
 import tech.intellispaces.core.specification.instance.InstanceSpecification;
-import tech.intellispaces.core.specification.reference.Reference;
+import tech.intellispaces.core.specification.reference.SpaceReference;
 
 import java.util.List;
 
@@ -33,9 +34,11 @@ public interface ContextChannelSpecification {
   List<ContextChannelSpecification> projections();
 
   /**
-   * The channel target domain.
+   * The channel target domain reference.
    */
-  Reference targetDomain();
+  SpaceReference targetDomain();
+
+  DomainBoundSpecification targetDomainBounds();
 
   /**
    * The channel target alias.
@@ -43,11 +46,11 @@ public interface ContextChannelSpecification {
   String targetAlias();
 
   /**
-   * The target value.
+   * The target instance.
    */
-  InstanceSpecification targetValue();
+  InstanceSpecification targetInstance();
+
+  List<ConstraintSpecification> targetConstraints();
 
   List<String> allowedTraverse();
-
-  List<ConstraintSpecification> constraints();
 }
