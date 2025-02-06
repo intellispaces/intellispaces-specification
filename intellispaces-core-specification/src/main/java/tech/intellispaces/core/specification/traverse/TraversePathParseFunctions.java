@@ -1,12 +1,12 @@
 package tech.intellispaces.core.specification.traverse;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import tech.intellispaces.commons.base.text.StringFunctions;
 import tech.intellispaces.core.specification.exception.TraversePathSpecificationException;
 import tech.intellispaces.core.specification.exception.TraversePathSpecificationExceptions;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class TraversePathParseFunctions {
 
