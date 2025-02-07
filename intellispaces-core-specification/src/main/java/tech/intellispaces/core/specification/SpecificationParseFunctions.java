@@ -144,7 +144,7 @@ public class SpecificationParseFunctions {
 
   static SuperDomainSpecification parseSuperDomain(Dictionary superDomainDictionary) throws SpecificationException {
     return SuperDomainSpecifications.build()
-        .domain(parseDomainReference(superDomainDictionary))
+        .reference(parseDomainReference(superDomainDictionary))
         .constraints(parseContextConstraints(superDomainDictionary))
         .get();
   }
@@ -184,8 +184,7 @@ public class SpecificationParseFunctions {
     if (projectionDictionaries == null) {
       return List.of();
     }
-    return CollectionFunctions.mapEach(projectionDictionaries,
-        SpecificationParseFunctions::parseChannelProjection);
+    return CollectionFunctions.mapEach(projectionDictionaries, SpecificationParseFunctions::parseChannelProjection);
   }
 
   static ContextChannelSpecification parseChannelProjection(
@@ -193,7 +192,8 @@ public class SpecificationParseFunctions {
   ) throws SpecificationException {
     return ContextChannelSpecifications.build()
         .targetAlias(parseDictionaryAlias(projectionDictionary))
-        .targetDomain(parseDomainReference(projectionDictionary, "domain"))
+        .targetDomain(parseDomainReference(projectionDictionary, "target", "domain"))
+        .targetConstraints(parseContextConstraints(projectionDictionary, "target"))
         .get();
   }
 
@@ -271,19 +271,23 @@ public class SpecificationParseFunctions {
     if (isStringValue(dictionary, propertyPath)) {
       return traverseToString(dictionary, propertyPath);
     } else {
-      Dictionary dict = traverseToDictionary(dictionary, propertyPath);
-      if (dict != null && !dict.propertyNames().isEmpty()) {
-        String name = traverseToString(dict, "name");
-        if (name != null) {
-          return name;
-        }
+      Dictionary targetDict = traverseToDictionary(dictionary, propertyPath);
+      if (targetDict != null) {
+        if (!targetDict.propertyNames().isEmpty()) {
+          String name = traverseToString(targetDict, "name");
+          if (name != null) {
+            return name;
+          }
 
-        String firstProperty = dict.propertyNames().get(0);
-        if (!dict.hasValue(firstProperty)) {
-          return firstProperty;
+          String firstProperty = targetDict.propertyNames().get(0);
+          if (!targetDict.hasValue(firstProperty)) {
+            return firstProperty;
+          }
+        } else {
+          return targetDict.name();
         }
       }
-      return dictionary.name();
+      return null;
     }
   }
 
@@ -420,10 +424,13 @@ public class SpecificationParseFunctions {
       }
     }
 
-    for (String propertyName : dictionary.propertyNames()) {
+    for (String propertyName : curDictionary.propertyNames()) {
       if (propertyName.startsWith(joinPropertyName + ".")) {
         String nextPropertyName = propertyName.substring(joinPropertyName.length() + 1);
-        return Dictionaries.get(Map.of(nextPropertyName, dictionary.valueNullable(propertyName)));
+        return Dictionaries.get(
+            Arrays.stream(propertyPath).toList(),
+            Map.of(nextPropertyName, curDictionary.valueNullable(propertyName))
+        );
       }
     }
     return null;

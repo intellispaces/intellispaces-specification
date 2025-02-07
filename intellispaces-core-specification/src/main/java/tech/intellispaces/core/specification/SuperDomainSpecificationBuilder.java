@@ -6,11 +6,11 @@ import tech.intellispaces.core.specification.reference.SpaceReference;
 import java.util.List;
 
 public class SuperDomainSpecificationBuilder {
-  private SpaceReference domain;
+  private SpaceReference reference;
   private List<ConstraintSpecification> constraints = List.of();
 
-  public SuperDomainSpecificationBuilder domain(SpaceReference domain) {
-    this.domain = domain;
+  public SuperDomainSpecificationBuilder reference(SpaceReference reference) {
+    this.reference = reference;
     return this;
   }
 
@@ -21,7 +21,7 @@ public class SuperDomainSpecificationBuilder {
 
   public SuperDomainSpecification get() {
     return new SuperDomainSpecificationImpl(
-        domain,
+        reference,
         constraints
     );
   }

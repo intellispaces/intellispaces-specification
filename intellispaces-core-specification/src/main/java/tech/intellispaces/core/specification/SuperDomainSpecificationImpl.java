@@ -6,7 +6,7 @@ import tech.intellispaces.core.specification.reference.SpaceReference;
 import java.util.List;
 
 record SuperDomainSpecificationImpl(
-    SpaceReference domain,
+    SpaceReference reference,
     List<ConstraintSpecification> constraints
 ) implements SuperDomainSpecification {
 }

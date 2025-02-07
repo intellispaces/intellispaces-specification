@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface SuperDomainSpecification {
 
-  SpaceReference domain();
+  SpaceReference reference();
 
   List<ConstraintSpecification> constraints();
 }
