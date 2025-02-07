@@ -16,8 +16,9 @@ public class ContextChannelSpecificationBuilder {
   private DomainBoundSpecification targetDomainBounds;
   private String targetAlias;
   private InstanceSpecification targetInstance;
-  private List<String> allowedTraverses;
   private List<ConstraintSpecification> targetConstraints = List.of();
+  private ImmobilityType targetImmobilityType = ImmobilityTypes.General;
+  private List<String> allowedTraverses;
 
   public ContextChannelSpecificationBuilder alias(String alias) {
     this.alias = alias;
@@ -59,6 +60,11 @@ public class ContextChannelSpecificationBuilder {
     return this;
   }
 
+  public ContextChannelSpecificationBuilder targetImmobilityType(ImmobilityType targetImmobilityType) {
+    this.targetImmobilityType = targetImmobilityType;
+    return this;
+  }
+
   public ContextChannelSpecificationBuilder targetAlias(String alias) {
     this.targetAlias = alias;
     return this;
@@ -86,6 +92,7 @@ public class ContextChannelSpecificationBuilder {
         targetAlias,
         targetInstance,
         targetConstraints,
+        targetImmobilityType,
         allowedTraverses
     );
   }

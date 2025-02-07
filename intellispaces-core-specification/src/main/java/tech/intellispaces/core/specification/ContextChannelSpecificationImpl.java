@@ -17,6 +17,7 @@ record ContextChannelSpecificationImpl(
     String targetAlias,
     InstanceSpecification targetInstance,
     List<ConstraintSpecification> targetConstraints,
+    ImmobilityType targetImmobilityType,
     List<String> allowedTraverse
 ) implements ContextChannelSpecification {
 }

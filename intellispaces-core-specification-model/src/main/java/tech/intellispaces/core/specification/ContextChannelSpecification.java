@@ -52,5 +52,7 @@ public interface ContextChannelSpecification {
 
   List<ConstraintSpecification> targetConstraints();
 
+  ImmobilityType targetImmobilityType();
+
   List<String> allowedTraverse();
 }

@@ -173,6 +173,7 @@ public class SpecificationParseFunctions {
         .targetConstraints(parseContextConstraints(channelDictionary, "target"))
         .targetAlias(traverseToString(channelDictionary, "target", "alias"))
         .targetInstance(parseInstance(channelDictionary, "target", "instance"))
+        .targetImmobilityType(parseImmobilityType(channelDictionary, "target"))
         .allowedTraverses(parseAllowedTraverses(channelDictionary))
         .get();
   }
@@ -238,6 +239,14 @@ public class SpecificationParseFunctions {
       return InstanceSpecifications.get(stringValue);
     }
     throw NotImplementedExceptions.withCode("RG/Gb1Pl");
+  }
+
+  static ImmobilityType parseImmobilityType(Dictionary dictionary, String... propertyPath) {
+    String alias = traverseToString(dictionary, propertyPath, "immobilityType");
+    if (alias != null) {
+      return ImmobilityTypes.fromAlias(alias);
+    }
+    return ImmobilityTypes.General;
   }
 
   @SuppressWarnings("unchecked")
@@ -334,6 +343,12 @@ public class SpecificationParseFunctions {
       return false;
     }
     return (value instanceof String);
+  }
+
+  static String traverseToString(
+      Dictionary dictionary, String[] initialPath, String... propertyPath
+  ) {
+    return traverseToString(dictionary, ArraysFunctions.join(initialPath, propertyPath));
   }
 
   static String traverseToString(Dictionary dictionary, String... propertyPath) {
