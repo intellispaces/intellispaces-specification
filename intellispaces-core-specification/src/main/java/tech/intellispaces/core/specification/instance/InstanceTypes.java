@@ -7,5 +7,7 @@ public enum InstanceTypes implements InstanceType, Enumeration<InstanceType>, En
 
   String,
 
-  Reference
+  Reference,
+
+  Custom
 }

@@ -11,4 +11,8 @@ public interface InstanceSpecifications {
   static InstanceSpecification get(SpaceReference reference) {
     return new InstanceSpecificationImpl(reference);
   }
+
+  static InstanceSpecification get(CustomInstanceSpecification customInstance) {
+    return new InstanceSpecificationImpl(customInstance);
+  }
 }

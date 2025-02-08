@@ -6,6 +6,7 @@ class InstanceSpecificationImpl implements InstanceSpecification {
   private InstanceType type;
   private String string;
   private SpaceReference reference;
+  private CustomInstanceSpecification customInstance;
 
   public InstanceSpecificationImpl(String string) {
     this.string = string;
@@ -15,6 +16,11 @@ class InstanceSpecificationImpl implements InstanceSpecification {
   public InstanceSpecificationImpl(SpaceReference reference) {
     this.reference = reference;
     this.type = InstanceTypes.Reference;
+  }
+
+  public InstanceSpecificationImpl(CustomInstanceSpecification customInstance) {
+    this.customInstance = customInstance;
+    this.type = InstanceTypes.Custom;
   }
 
   @Override
@@ -33,6 +39,11 @@ class InstanceSpecificationImpl implements InstanceSpecification {
   }
 
   @Override
+  public boolean isCustomInstance() {
+    return InstanceTypes.Custom.is(type);
+  }
+
+  @Override
   public String asString() {
     return string;
   }
@@ -40,5 +51,10 @@ class InstanceSpecificationImpl implements InstanceSpecification {
   @Override
   public SpaceReference asReference() {
     return reference;
+  }
+
+  @Override
+  public CustomInstanceSpecification asCustomInstance() {
+    return customInstance;
   }
 }

@@ -13,7 +13,11 @@ public interface InstanceSpecification {
 
   boolean isReference();
 
+  boolean isCustomInstance();
+
   String asString();
 
   SpaceReference asReference();
+
+  CustomInstanceSpecification asCustomInstance();
 }

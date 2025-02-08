@@ -13,6 +13,7 @@ import tech.intellispaces.core.specification.constraint.EquivalenceConstraintSpe
 import tech.intellispaces.core.specification.constraint.EquivalenceConstraintSpecifications;
 import tech.intellispaces.core.specification.exception.SpecificationException;
 import tech.intellispaces.core.specification.exception.SpecificationExceptions;
+import tech.intellispaces.core.specification.instance.CustomInstanceSpecifications;
 import tech.intellispaces.core.specification.instance.InstanceSpecification;
 import tech.intellispaces.core.specification.instance.InstanceSpecifications;
 import tech.intellispaces.core.specification.reference.SpaceReference;
@@ -28,6 +29,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -212,6 +214,8 @@ public class SpecificationParseFunctions {
     Dictionary equivalenceDictionary = traverseToDictionary(constrainDictionary, "equivalence");
     if (equivalenceDictionary != null) {
       return readEquivalenceContextConstraint(equivalenceDictionary);
+    } else if (constrainDictionary.hasProperty("equivalence")) {
+      return readEquivalenceContextConstraint(constrainDictionary);
     } else {
       throw NotImplementedExceptions.withCode("fBAcjQ");
     }
@@ -226,19 +230,45 @@ public class SpecificationParseFunctions {
       throw NotImplementedExceptions.withCode("Pa6fhA");
     }
     List<TraversePathSpecification> pathSpecs = CollectionFunctions.mapEach(paths, TraversePathParseFunctions::parse);
-    return EquivalenceConstraintSpecifications.get(pathSpecs);
+
+    InstanceSpecification instance = null;
+    if (constrainDictionary.hasProperty("instance")) {
+      instance = parseInstance(constrainDictionary, "instance");
+    }
+
+    return EquivalenceConstraintSpecifications.get(pathSpecs, instance);
   }
 
-  static InstanceSpecification parseInstance(Dictionary dictionary, String... propertyPath) {
+  static InstanceSpecification parseInstance(
+      Dictionary dictionary, String... propertyPath
+  ) throws SpecificationException {
     if (!existProperty(dictionary, propertyPath)) {
       return null;
     }
 
-    String stringValue = traverseToString(dictionary, propertyPath);
-    if (stringValue != null) {
+    Object value = traverse(dictionary, propertyPath);
+    if (value instanceof String stringValue) {
       return InstanceSpecifications.get(stringValue);
+    } else if (value instanceof Dictionary dictionaryValue){
+      return parseCustomInstance(dictionaryValue);
     }
     throw NotImplementedExceptions.withCode("RG/Gb1Pl");
+  }
+
+  static InstanceSpecification parseCustomInstance(
+      Dictionary instasnceDictionary
+  ) throws SpecificationException {
+    SpaceReference domain = SpaceReferences.build().name(instasnceDictionary.stringValue("domain")).build();
+    List<ConstraintSpecification> constraints = parseContextConstraints(instasnceDictionary);
+
+    Map<String, InstanceSpecification> projections = new HashMap<>();
+    for (String propertyName : instasnceDictionary.propertyNames()) {
+      if (!"domain".equals(propertyName) && !"constraints".equals(propertyName)) {
+        InstanceSpecification targetInstance = parseInstance(instasnceDictionary,propertyName);
+        projections.put(propertyName, targetInstance);
+      }
+    }
+    return InstanceSpecifications.get(CustomInstanceSpecifications.get(domain, projections, constraints));
   }
 
   static ImmobilityType parseImmobilityType(Dictionary dictionary, String... propertyPath) {
