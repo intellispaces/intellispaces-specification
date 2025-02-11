@@ -15,7 +15,7 @@ public class SpecificationBuilder {
     return this;
   }
 
-  public Specification get() {
+  public Specification build() {
     return new SpecificationImpl(
         specPath,
         ontology

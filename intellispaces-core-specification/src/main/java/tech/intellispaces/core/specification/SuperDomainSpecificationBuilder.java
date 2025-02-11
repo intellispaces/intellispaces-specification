@@ -19,7 +19,7 @@ public class SuperDomainSpecificationBuilder {
     return this;
   }
 
-  public SuperDomainSpecification get() {
+  public SuperDomainSpecification build() {
     return new SuperDomainSpecificationImpl(
         reference,
         constraints

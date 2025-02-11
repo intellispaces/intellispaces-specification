@@ -7,7 +7,7 @@ public class DomainSpecificationBuilder {
   private String did;
   private String description;
   private List<SuperDomainSpecification> superDomains = List.of();
-  private List<ContextChannelSpecification> channels;
+  private List<ChannelSpecification> channels;
 
   public DomainSpecificationBuilder name(String name) {
     this.name = name;
@@ -29,12 +29,12 @@ public class DomainSpecificationBuilder {
     return this;
   }
 
-  public DomainSpecificationBuilder channels(List<ContextChannelSpecification> channels) {
+  public DomainSpecificationBuilder channels(List<ChannelSpecification> channels) {
     this.channels = channels;
     return this;
   }
 
-  public DomainSpecification get() {
+  public DomainSpecification build() {
     return new DomainSpecificationImpl(
         name,
         did,

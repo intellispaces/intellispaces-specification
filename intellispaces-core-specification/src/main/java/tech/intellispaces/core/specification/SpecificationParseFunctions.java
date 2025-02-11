@@ -108,14 +108,15 @@ public class SpecificationParseFunctions {
   static Specification parseSpecification(Path specPath, Dictionary specDictionary) throws SpecificationException {
     return Specifications.build(specPath)
         .ontology(parseOntology(specDictionary))
-        .get();
+        .build();
   }
 
   static OntologySpecification parseOntology(Dictionary specDictionary) throws SpecificationException {
     Dictionary ontologyDictionary = specDictionary.dictionaryValue("ontology");
     return OntologySpecifications.build()
         .domains(parseDomains(ontologyDictionary))
-        .get();
+        .channels(parseChannels(ontologyDictionary))
+        .build();
   }
 
   static List<DomainSpecification> parseDomains(Dictionary ontologyDictionary) throws SpecificationException {
@@ -133,7 +134,7 @@ public class SpecificationParseFunctions {
         .description(domainDictionary.stringValueNullable("description"))
         .superDomains(parseSuperDomains(domainDictionary))
         .channels(parseDomainChannels(domainDictionary))
-        .get();
+        .build();
   }
 
   static List<SuperDomainSpecification> parseSuperDomains(Dictionary domainDictionary) throws SpecificationException {
@@ -148,56 +149,64 @@ public class SpecificationParseFunctions {
     return SuperDomainSpecifications.build()
         .reference(parseDomainReference(superDomainDictionary))
         .constraints(parseContextConstraints(superDomainDictionary))
-        .get();
+        .build();
   }
 
-  static List<ContextChannelSpecification> parseDomainChannels(
+  static List<ChannelSpecification> parseDomainChannels(
       Dictionary domainDictionary
   ) throws SpecificationException {
     if (!domainDictionary.hasProperty("channels")) {
       return List.of();
     }
     List<Dictionary> channelDictionaries = domainDictionary.dictionaryListValue("channels");
-    return CollectionFunctions.mapEach(channelDictionaries, SpecificationParseFunctions::parseDomainChannel);
+    return CollectionFunctions.mapEach(channelDictionaries, SpecificationParseFunctions::parseChannel);
   }
 
-  static ContextChannelSpecification parseDomainChannel(
-      Dictionary channelDictionary
-  ) throws SpecificationException {
-    return ContextChannelSpecifications.build()
+  static List<ChannelSpecification> parseChannels(Dictionary ontologyDictionary) throws SpecificationException {
+    if (!ontologyDictionary.hasProperty("channels")) {
+      return List.of();
+    }
+    List<Dictionary> channelDictionaries = ontologyDictionary.dictionaryListValue("channels");
+    return CollectionFunctions.mapEach(channelDictionaries, SpecificationParseFunctions::parseChannel);
+  }
+
+  static ChannelSpecification parseChannel(Dictionary channelDictionary) throws SpecificationException {
+    return ChannelSpecifications.build()
         .alias(parseDictionaryAlias(channelDictionary))
-        .cid(channelDictionary.stringValue("cid"))
+        .cid(traverseToString(channelDictionary, "cid"))
         .name(channelDictionary.stringValueNullable("name"))
         .description(channelDictionary.stringValueNullable("description"))
-        .projections(parseChannelProjections(channelDictionary))
-        .targetDomain(parseDomainReference(channelDictionary, "target", "domain"))
-        .targetDomainBounds(parseDomainBounds(channelDictionary, "target", "domain", "bounds"))
-        .targetConstraints(parseContextConstraints(channelDictionary, "target"))
-        .targetAlias(traverseToString(channelDictionary, "target", "alias"))
-        .targetInstance(parseInstance(channelDictionary, "target", "instance"))
-        .targetImmobilityType(parseImmobilityType(channelDictionary, "target"))
+        .source(ChannelSideSpecifications.build()
+            .alias(traverseToString(channelDictionary, "source", "alias"))
+            .domain(parseDomainReference(channelDictionary, "source", "domain"))
+            .domainBounds(parseDomainBounds(channelDictionary, "source", "domain", "bounds"))
+            .constraints(parseContextConstraints(channelDictionary, "source"))
+            .instance(parseInstance(channelDictionary, "source", "instance"))
+            .immobilityType(parseImmobilityType(channelDictionary, "source"))
+            .build()
+        )
+        .target(ChannelSideSpecifications.build()
+            .alias(traverseToString(channelDictionary, "target", "alias"))
+            .domain(parseDomainReference(channelDictionary, "target", "domain"))
+            .domainBounds(parseDomainBounds(channelDictionary, "target", "domain", "bounds"))
+            .constraints(parseContextConstraints(channelDictionary, "target"))
+            .instance(parseInstance(channelDictionary, "target", "instance"))
+            .immobilityType(parseImmobilityType(channelDictionary, "target"))
+            .build()
+        )
+        .qualifiers(parseChannelQualifiers(channelDictionary))
         .allowedTraverses(parseAllowedTraverses(channelDictionary))
-        .get();
+        .build();
   }
 
-  static List<ContextChannelSpecification> parseChannelProjections(
+  static List<ChannelSpecification> parseChannelQualifiers(
       Dictionary channelDictionary
   ) throws SpecificationException {
-    List<Dictionary> projectionDictionaries = traverseToDictionaryList(channelDictionary, "projections");
+    List<Dictionary> projectionDictionaries = traverseToDictionaryList(channelDictionary, "qualifiers");
     if (projectionDictionaries == null) {
       return List.of();
     }
-    return CollectionFunctions.mapEach(projectionDictionaries, SpecificationParseFunctions::parseChannelProjection);
-  }
-
-  static ContextChannelSpecification parseChannelProjection(
-      Dictionary projectionDictionary
-  ) throws SpecificationException {
-    return ContextChannelSpecifications.build()
-        .targetAlias(parseDictionaryAlias(projectionDictionary))
-        .targetDomain(parseDomainReference(projectionDictionary, "target", "domain"))
-        .targetConstraints(parseContextConstraints(projectionDictionary, "target"))
-        .get();
+    return CollectionFunctions.mapEach(projectionDictionaries, SpecificationParseFunctions::parseChannel);
   }
 
   static List<ConstraintSpecification> parseContextConstraints(
@@ -330,8 +339,15 @@ public class SpecificationParseFunctions {
     }
   }
 
-  static List<String> parseAllowedTraverses(Dictionary channelDictionary) {
-    return channelDictionary.stringListValueNullable("allowedTraverses");
+  static List<AllowedTraverseType> parseAllowedTraverses(Dictionary channelDictionary) {
+    List<String> values = channelDictionary.stringListValueNullable("allowedTraverses");
+    if (values == null) {
+      return List.of(AllowedTraverseTypes.Mapping);
+    }
+    return values.stream()
+        .map(AllowedTraverseTypes::valueOf)
+        .map(t -> (AllowedTraverseType) t)
+        .toList();
   }
 
   static Specification joinSpecification(Path specPath, Collection<Specification> specs) {
@@ -342,8 +358,13 @@ public class SpecificationParseFunctions {
                 .map(OntologySpecification::domains)
                 .flatMap(List::stream)
                 .toList())
-            .get())
-        .get();
+            .channels(specs.stream()
+                .map(Specification::ontology)
+                .map(OntologySpecification::channels)
+                .flatMap(List::stream)
+                .toList())
+            .build())
+        .build();
   }
 
   static String parseDictionaryAlias(Dictionary dictionary) throws SpecificationException {
@@ -356,10 +377,10 @@ public class SpecificationParseFunctions {
       throw SpecificationExceptions.withMessage("Invalid description: {0}", dictionary.path());
     }
     String firstProperty = properties.get(0);
-    if (dictionary.hasValue(firstProperty)) {
-      throw SpecificationExceptions.withMessage("Invalid alias: {0}", dictionary.path());
+    if (!dictionary.hasValue(firstProperty)) {
+      return firstProperty;
     }
-    return firstProperty;
+    return null;
   }
 
   static boolean existProperty(Dictionary dictionary, String... propertyPath) {

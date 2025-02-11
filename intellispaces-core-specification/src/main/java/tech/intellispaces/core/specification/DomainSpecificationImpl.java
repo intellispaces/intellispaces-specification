@@ -7,6 +7,6 @@ record DomainSpecificationImpl(
     String did,
     String description,
     List<SuperDomainSpecification> superDomains,
-    List<ContextChannelSpecification> channels
+    List<ChannelSpecification> channels
 ) implements DomainSpecification {
 }

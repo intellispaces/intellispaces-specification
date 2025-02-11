@@ -8,4 +8,6 @@ import java.util.List;
 public interface OntologySpecification {
 
   List<DomainSpecification> domains();
+
+  List<ChannelSpecification> channels();
 }

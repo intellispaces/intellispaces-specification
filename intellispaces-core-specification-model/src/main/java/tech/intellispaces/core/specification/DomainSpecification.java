@@ -30,5 +30,5 @@ public interface DomainSpecification {
   /**
    * Domain channel specifications.
    */
-  List<ContextChannelSpecification> channels();
+  List<ChannelSpecification> channels();
 }
