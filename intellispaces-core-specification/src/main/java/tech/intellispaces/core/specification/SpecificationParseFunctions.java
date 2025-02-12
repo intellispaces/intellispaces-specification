@@ -159,7 +159,7 @@ public class SpecificationParseFunctions {
       return List.of();
     }
     List<Dictionary> channelDictionaries = domainDictionary.dictionaryListValue("channels");
-    return CollectionFunctions.mapEach(channelDictionaries, SpecificationParseFunctions::parseChannel);
+    return CollectionFunctions.mapEach(channelDictionaries, SpecificationParseFunctions::parseDomainChannel);
   }
 
   static List<ChannelSpecification> parseChannels(Dictionary ontologyDictionary) throws SpecificationException {
@@ -170,11 +170,37 @@ public class SpecificationParseFunctions {
     return CollectionFunctions.mapEach(channelDictionaries, SpecificationParseFunctions::parseChannel);
   }
 
+  static ChannelSpecification parseDomainChannel(Dictionary channelDictionary) throws SpecificationException {
+    return parseChannel(
+        channelDictionary,
+        traverseToString(channelDictionary, "name"),
+        parseDictionaryAlias(channelDictionary)
+    );
+  }
+
   static ChannelSpecification parseChannel(Dictionary channelDictionary) throws SpecificationException {
+    return parseChannel(
+        channelDictionary,
+        channelDictionary.name(),
+        null
+    );
+  }
+
+  static ChannelSpecification parseChannelQualifier(Dictionary qualifierDictionary) throws SpecificationException {
+    return parseChannel(
+        qualifierDictionary,
+        traverseToString(qualifierDictionary, "name"),
+        parseDictionaryAlias(qualifierDictionary)
+    );
+  }
+
+  static ChannelSpecification parseChannel(
+      Dictionary channelDictionary, String name, String alias
+  ) throws SpecificationException {
     return ChannelSpecifications.build()
-        .alias(parseDictionaryAlias(channelDictionary))
         .cid(traverseToString(channelDictionary, "cid"))
-        .name(channelDictionary.stringValueNullable("name"))
+        .name(name)
+        .alias(alias)
         .description(channelDictionary.stringValueNullable("description"))
         .source(ChannelSideSpecifications.build()
             .alias(traverseToString(channelDictionary, "source", "alias"))
@@ -202,11 +228,11 @@ public class SpecificationParseFunctions {
   static List<ChannelSpecification> parseChannelQualifiers(
       Dictionary channelDictionary
   ) throws SpecificationException {
-    List<Dictionary> projectionDictionaries = traverseToDictionaryList(channelDictionary, "qualifiers");
-    if (projectionDictionaries == null) {
+    List<Dictionary> qualifierDictionaries = traverseToDictionaryList(channelDictionary, "qualifiers");
+    if (qualifierDictionaries == null) {
       return List.of();
     }
-    return CollectionFunctions.mapEach(projectionDictionaries, SpecificationParseFunctions::parseChannel);
+    return CollectionFunctions.mapEach(qualifierDictionaries, SpecificationParseFunctions::parseChannelQualifier);
   }
 
   static List<ConstraintSpecification> parseContextConstraints(
