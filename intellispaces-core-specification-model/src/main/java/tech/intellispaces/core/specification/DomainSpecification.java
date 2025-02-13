@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * The domain specification.
  */
-public interface DomainSpecification {
+public interface DomainSpecification extends SpecificationItem {
 
   /**
    * The domain identifier.

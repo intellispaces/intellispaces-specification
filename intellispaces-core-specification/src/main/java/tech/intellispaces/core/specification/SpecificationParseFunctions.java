@@ -39,22 +39,20 @@ public class SpecificationParseFunctions {
 
   public static Specification parseSpecification(
       Path specPath,
-      Path baseDirectory,
       ThrowingFunction<InputStream, Dictionary, Exception> rawParser
   ) throws SpecificationException {
     var specs = new LinkedHashMap<String, Specification>();
-    parseSpecifications(specPath, baseDirectory, rawParser, specs);
+    parseSpecifications(specPath, rawParser, specs);
     return joinSpecification(specPath, specs.values());
   }
 
   static void parseSpecifications(
       Path specPath,
-      Path baseDirectory,
       ThrowingFunction<InputStream, Dictionary, Exception> rawParser,
       Map<String, Specification> specs
   ) throws SpecificationException {
     if (!specs.containsKey(specPath.toString())) {
-      Dictionary specDictionary = parseSpecification(specPath, rawParser);
+      Dictionary specDictionary = readSpecification(specPath, rawParser);
 
       SpecificationVersion specVersion = parseVersion(specDictionary);
       if (!SpecificationVersions.V0p1.is(specVersion)) {
@@ -64,13 +62,13 @@ public class SpecificationParseFunctions {
       Specification spec = parseSpecification(specPath, specDictionary);
       specs.put(specPath.toString(), spec);
 
-      List<Path> importSpecPaths = getImportedSpecifications(specDictionary, baseDirectory);
+      List<Path> importSpecPaths = getImportedSpecifications(specPath, specDictionary);
       CollectionFunctions.forEach(importSpecPaths,
-          importSpecPath -> parseSpecifications(importSpecPath, baseDirectory, rawParser, specs));
+          importSpecPath -> parseSpecifications(importSpecPath, rawParser, specs));
     }
   }
 
-  static Dictionary parseSpecification(
+  static Dictionary readSpecification(
       Path specPath, ThrowingFunction<InputStream, Dictionary, Exception> rawParser
   ) throws SpecificationException {
     try {
@@ -85,24 +83,24 @@ public class SpecificationParseFunctions {
     return SpecificationVersions.from(version);
   }
 
-  static List<Path> getImportedSpecifications(Dictionary specDictionary, Path baseDirectory) {
+  static List<Path> getImportedSpecifications(Path baseSpecPath, Dictionary specDictionary) {
     if (!specDictionary.hasProperty("imports")) {
       return List.of();
     }
-    List<String> importPathPatterns = specDictionary.stringListValue("imports");
-    return getImportedSpecifications(baseDirectory, importPathPatterns);
+    List<String> importSpecNames = specDictionary.stringListValue("imports");
+    return getImportedSpecifications(baseSpecPath, importSpecNames);
   }
 
-  static List<Path> getImportedSpecifications(Path projectPath, List<String> importPathPatterns) {
+  static List<Path> getImportedSpecifications(Path baseSpecPath, List<String> importSpecNames) {
     var files = new ArrayList<Path>();
-    CollectionFunctions.forEach(importPathPatterns, importMask -> getImportedSpecifications(
-        projectPath, importMask, files)
+    CollectionFunctions.forEach(importSpecNames, importSpecName -> getImportedSpecifications(
+        baseSpecPath, importSpecName, files)
     );
     return files;
   }
 
-  static void getImportedSpecifications(Path projectPath, String importPathPattern, List<Path> files) {
-    files.add(Paths.get(projectPath.toString(), importPathPattern));
+  static void getImportedSpecifications(Path baseSpecPath, String importSpecName, List<Path> files) {
+    files.add(Paths.get(baseSpecPath.getParent().toString(), importSpecName));
   }
 
   static Specification parseSpecification(Path specPath, Dictionary specDictionary) throws SpecificationException {

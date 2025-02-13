@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * The channel specification.
  */
-public interface ChannelSpecification {
+public interface ChannelSpecification extends SpecificationItem {
 
   /**
    * The channel identifier.

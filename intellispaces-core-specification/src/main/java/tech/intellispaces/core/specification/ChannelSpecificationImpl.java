@@ -1,5 +1,7 @@
 package tech.intellispaces.core.specification;
 
+import tech.intellispaces.commons.base.exception.UnexpectedExceptions;
+
 import java.util.List;
 
 record ChannelSpecificationImpl(
@@ -12,4 +14,19 @@ record ChannelSpecificationImpl(
   List<ChannelSpecification> qualifiers,
   List<AllowedTraverseType> allowedTraverses
 ) implements ChannelSpecification {
+
+  @Override
+  public SpecificationItemType type() {
+    return SpecificationItemTypes.Channel;
+  }
+
+  @Override
+  public DomainSpecification asDomainSpecification() {
+    throw UnexpectedExceptions.withMessage("Attempt to cast channel specification to domain specification");
+  }
+
+  @Override
+  public ChannelSpecification asChannelSpecification() {
+    return this;
+  }
 }
