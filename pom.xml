@@ -13,8 +13,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>intellispaces-core-specification-model</module>
-        <module>intellispaces-core-specification</module>
+        <module>intellispaces-core-space-specification-model</module>
+        <module>intellispaces-core-space-specification</module>
     </modules>
 
     <dependencyManagement>
@@ -31,7 +31,7 @@
             </dependency>
             <dependency>
                 <groupId>tech.intellispaces.core</groupId>
-                <artifactId>intellispaces-core-specification-model</artifactId>
+                <artifactId>intellispaces-core-space-specification-model</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
