@@ -8,8 +8,7 @@ public enum ImmobilityTypes implements Enumeration<ImmobilityType>, ImmobilityTy
 
   Movable,
 
-  General;
-
+  Undefined;
 
   @Override
   public String alias() {

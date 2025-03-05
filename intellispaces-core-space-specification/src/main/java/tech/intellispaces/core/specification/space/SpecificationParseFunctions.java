@@ -309,7 +309,7 @@ public class SpecificationParseFunctions {
     if (alias != null) {
       return ImmobilityTypes.fromAlias(alias);
     }
-    return ImmobilityTypes.General;
+    return ImmobilityTypes.Undefined;
   }
 
   @SuppressWarnings("unchecked")
