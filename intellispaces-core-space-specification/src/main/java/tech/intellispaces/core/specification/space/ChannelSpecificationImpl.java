@@ -1,6 +1,6 @@
 package tech.intellispaces.core.specification.space;
 
-import tech.intellispaces.commons.base.exception.UnexpectedExceptions;
+import tech.intellispaces.commons.exception.UnexpectedExceptions;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package tech.intellispaces.core.specification.space.instance;
 
-import tech.intellispaces.commons.base.entity.Enumerable;
-import tech.intellispaces.commons.base.entity.Enumeration;
+import tech.intellispaces.commons.entity.Enumerable;
+import tech.intellispaces.commons.entity.Enumeration;
 
 public enum InstanceTypes implements InstanceType, Enumeration<InstanceType>, Enumerable<InstanceType> {
 

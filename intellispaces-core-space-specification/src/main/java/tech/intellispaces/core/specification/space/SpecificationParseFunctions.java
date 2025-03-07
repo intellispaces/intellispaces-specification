@@ -1,13 +1,13 @@
 package tech.intellispaces.core.specification.space;
 
-import tech.intellispaces.commons.base.collection.ArraysFunctions;
-import tech.intellispaces.commons.base.collection.CollectionFunctions;
-import tech.intellispaces.commons.base.data.Dictionaries;
-import tech.intellispaces.commons.base.data.Dictionary;
-import tech.intellispaces.commons.base.exception.NotImplementedExceptions;
-import tech.intellispaces.commons.base.exception.UnexpectedExceptions;
-import tech.intellispaces.commons.base.function.ThrowingFunction;
-import tech.intellispaces.commons.base.text.StringFunctions;
+import tech.intellispaces.commons.collection.ArraysFunctions;
+import tech.intellispaces.commons.collection.CollectionFunctions;
+import tech.intellispaces.commons.data.Dictionaries;
+import tech.intellispaces.commons.data.Dictionary;
+import tech.intellispaces.commons.exception.NotImplementedExceptions;
+import tech.intellispaces.commons.exception.UnexpectedExceptions;
+import tech.intellispaces.commons.function.ThrowingFunction;
+import tech.intellispaces.commons.text.StringFunctions;
 import tech.intellispaces.core.specification.space.constraint.ConstraintSpecification;
 import tech.intellispaces.core.specification.space.constraint.EquivalenceConstraintSpecification;
 import tech.intellispaces.core.specification.space.constraint.EquivalenceConstraintSpecifications;

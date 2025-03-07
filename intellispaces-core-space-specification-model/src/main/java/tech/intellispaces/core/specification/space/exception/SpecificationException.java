@@ -1,6 +1,6 @@
 package tech.intellispaces.core.specification.space.exception;
 
-import tech.intellispaces.commons.base.exception.CheckedException;
+import tech.intellispaces.commons.exception.CheckedException;
 
 public class SpecificationException extends CheckedException {
 

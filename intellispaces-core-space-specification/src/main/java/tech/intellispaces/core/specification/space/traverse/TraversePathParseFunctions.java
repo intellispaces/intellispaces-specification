@@ -1,6 +1,6 @@
 package tech.intellispaces.core.specification.space.traverse;
 
-import tech.intellispaces.commons.base.text.StringFunctions;
+import tech.intellispaces.commons.text.StringFunctions;
 import tech.intellispaces.core.specification.space.exception.TraversePathSpecificationException;
 import tech.intellispaces.core.specification.space.exception.TraversePathSpecificationExceptions;
 

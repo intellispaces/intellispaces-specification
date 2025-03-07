@@ -1,6 +1,6 @@
 package tech.intellispaces.core.specification.space.traverse;
 
-import tech.intellispaces.commons.base.exception.UnexpectedExceptions;
+import tech.intellispaces.commons.exception.UnexpectedExceptions;
 import tech.intellispaces.core.specification.space.reference.SpaceReference;
 
 import java.util.Objects;

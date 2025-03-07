@@ -1,6 +1,6 @@
 package tech.intellispaces.core.specification.space;
 
-import tech.intellispaces.commons.base.entity.Enumeration;
+import tech.intellispaces.commons.entity.Enumeration;
 import tech.intellispaces.core.specification.space.exception.SpecificationException;
 import tech.intellispaces.core.specification.space.exception.SpecificationExceptions;
 
