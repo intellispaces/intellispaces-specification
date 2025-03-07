@@ -21,12 +21,12 @@
         <dependencies>
             <dependency>
                 <groupId>tech.intellispaces.core</groupId>
-                <artifactId>intellispaces-core-base-model</artifactId>
+                <artifactId>intellispaces-core-model</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>tech.intellispaces.core</groupId>
-                <artifactId>intellispaces-core-base</artifactId>
+                <artifactId>intellispaces-core</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>

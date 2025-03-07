@@ -35,7 +35,7 @@
         </dependency>
         <dependency>
             <groupId>tech.intellispaces.core</groupId>
-            <artifactId>intellispaces-core-base</artifactId>
+            <artifactId>intellispaces-core</artifactId>
         </dependency>
         <dependency>
             <groupId>tech.intellispaces.commons</groupId>
