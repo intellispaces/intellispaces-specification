@@ -2,45 +2,44 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>tech.intellispaces.parent</groupId>
+        <groupId>tech.intellispaces</groupId>
         <artifactId>intellispaces-parent-pom</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>tech.intellispaces.core</groupId>
-    <artifactId>intellispaces-core-specification-parent</artifactId>
+    <artifactId>intellispaces-specification-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>intellispaces-core-space-specification-model</module>
-        <module>intellispaces-core-space-specification</module>
+        <module>intellispaces-specification-model</module>
+        <module>intellispaces-specification</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>tech.intellispaces.core</groupId>
+                <groupId>tech.intellispaces</groupId>
                 <artifactId>intellispaces-core-model</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>tech.intellispaces.core</groupId>
+                <groupId>tech.intellispaces</groupId>
                 <artifactId>intellispaces-core</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>tech.intellispaces.core</groupId>
-                <artifactId>intellispaces-core-space-specification-model</artifactId>
+                <groupId>tech.intellispaces</groupId>
+                <artifactId>intellispaces-specification-model</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>tech.intellispaces.commons</groupId>
+                <groupId>tech.intellispaces</groupId>
                 <artifactId>intellispaces-commons-model</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>tech.intellispaces.commons</groupId>
+                <groupId>tech.intellispaces</groupId>
                 <artifactId>intellispaces-commons</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
