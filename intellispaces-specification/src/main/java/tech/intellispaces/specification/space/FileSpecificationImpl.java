@@ -2,8 +2,8 @@ package tech.intellispaces.specification.space;
 
 import java.nio.file.Path;
 
-record SpecificationImpl(
+record FileSpecificationImpl(
     Path specPath,
     OntologySpecification ontology
-) implements Specification {
+) implements FileSpecification {
 }

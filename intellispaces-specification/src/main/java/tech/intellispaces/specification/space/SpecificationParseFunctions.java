@@ -37,7 +37,7 @@ import java.util.Objects;
 
 public class SpecificationParseFunctions {
 
-  public static Specification parseSpecification(
+  public static FileSpecification parseSpecification(
       Path specPath,
       ThrowingFunction<InputStream, Dictionary, Exception> rawParser
   ) throws SpecificationException {
@@ -374,7 +374,7 @@ public class SpecificationParseFunctions {
         .toList();
   }
 
-  static Specification joinSpecification(Path specPath, Collection<Specification> specs) {
+  static FileSpecification joinSpecification(Path specPath, Collection<Specification> specs) {
     return Specifications.build(specPath)
         .ontology(OntologySpecifications.build()
             .domains(specs.stream()
