@@ -6,7 +6,7 @@ import java.util.List;
 
 record DomainSpecificationImpl(
     String name,
-    String did,
+    byte[] id,
     String description,
     List<SuperDomainSpecification> superDomains,
     List<ChannelSpecification> channels

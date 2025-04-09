@@ -10,7 +10,7 @@ public interface DomainSpecification extends SpecificationItem {
   /**
    * The domain identifier.
    */
-  String did();
+  byte[] id();
 
   /**
    * The domain qualified name.

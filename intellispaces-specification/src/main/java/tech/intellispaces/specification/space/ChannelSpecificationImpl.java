@@ -5,7 +5,7 @@ import tech.intellispaces.commons.exception.UnexpectedExceptions;
 import java.util.List;
 
 record ChannelSpecificationImpl(
-  String cid,
+  byte[] id,
   String name,
   String alias,
   String description,

@@ -10,7 +10,7 @@ public interface ChannelSpecification extends SpecificationItem {
   /**
    * The channel identifier.
    */
-  String cid();
+  byte[] id();
 
   /**
    * The channel qualified name.

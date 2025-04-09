@@ -128,7 +128,7 @@ public class SpecificationParseFunctions {
   static DomainSpecification parseDomain(Dictionary domainDictionary) throws SpecificationException {
     return DomainSpecifications.build()
         .name(domainDictionary.name())
-        .did(domainDictionary.stringValue("did"))
+        .id(domainDictionary.stringValue("id"))
         .description(domainDictionary.stringValueNullable("description"))
         .superDomains(parseSuperDomains(domainDictionary))
         .channels(parseDomainChannels(domainDictionary))
@@ -196,7 +196,7 @@ public class SpecificationParseFunctions {
       Dictionary channelDictionary, String name, String alias
   ) throws SpecificationException {
     return ChannelSpecifications.build()
-        .cid(traverseToString(channelDictionary, "cid"))
+        .id(traverseToString(channelDictionary, "id"))
         .name(name)
         .alias(alias)
         .description(channelDictionary.stringValueNullable("description"))

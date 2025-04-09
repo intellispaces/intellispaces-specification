@@ -1,9 +1,11 @@
 package tech.intellispaces.specification.space;
 
+import tech.intellispaces.core.id.IdentifierFunctions;
+
 import java.util.List;
 
 public class ChannelSpecificationBuilder {
-  private String cid;
+  private byte[] id;
   private String name;
   private String alias;
   private String description;
@@ -12,8 +14,13 @@ public class ChannelSpecificationBuilder {
   private List<ChannelSpecification> qualifiers = List.of();
   private List<AllowedTraverseType> allowedTraverses = List.of(AllowedTraverseTypes.Mapping);
 
-  public ChannelSpecificationBuilder cid(String cid) {
-    this.cid = cid;
+  public ChannelSpecificationBuilder id(byte[] id) {
+    this.id = id;
+    return this;
+  }
+
+  public ChannelSpecificationBuilder id(String  id) {
+    this.id = IdentifierFunctions.parseHexString(id);
     return this;
   }
 
@@ -54,7 +61,7 @@ public class ChannelSpecificationBuilder {
 
   public ChannelSpecification build() {
     return new ChannelSpecificationImpl(
-        cid,
+        id,
         name,
         alias,
         description,

@@ -1,10 +1,12 @@
 package tech.intellispaces.specification.space;
 
+import tech.intellispaces.core.id.IdentifierFunctions;
+
 import java.util.List;
 
 public class DomainSpecificationBuilder {
   private String name;
-  private String did;
+  private byte[] id;
   private String description;
   private List<SuperDomainSpecification> superDomains = List.of();
   private List<ChannelSpecification> channels;
@@ -14,8 +16,13 @@ public class DomainSpecificationBuilder {
     return this;
   }
 
-  public DomainSpecificationBuilder did(String did) {
-    this.did = did;
+  public DomainSpecificationBuilder id(byte[] id) {
+    this.id = id;
+    return this;
+  }
+
+  public DomainSpecificationBuilder id(String id) {
+    this.id = IdentifierFunctions.parseHexString(id);
     return this;
   }
 
@@ -37,7 +44,7 @@ public class DomainSpecificationBuilder {
   public DomainSpecification build() {
     return new DomainSpecificationImpl(
         name,
-        did,
+        id,
         description,
         superDomains,
         channels
